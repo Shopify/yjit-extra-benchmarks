@@ -135,9 +135,11 @@ RateLimiter.disable
 routes = [ "/categories" ]
 
 run_benchmark(10) do
-    env = Rack::MockRequest::env_for("http://localhost#{routes[0]}", headers: headers)
-    response_array = app.call(env)
-    unless response_array[0] == 200
-        raise "HTTP response is #{response_array.first} instead of 200. Is the benchmark app properly set up? See README.md."
+    10.times do
+        env = Rack::MockRequest::env_for("http://localhost#{routes[0]}", headers: headers)
+        response_array = app.call(env)
+        unless response_array[0] == 200
+            raise "HTTP response is #{response_array.first} instead of 200. Is the benchmark app properly set up? See README.md."
+        end
     end
 end
